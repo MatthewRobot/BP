@@ -27,7 +27,9 @@ SCROLL_AREA = (110, 171, 110, 126)
 SCROLL_AREA_REVERSE = (110, 126, 110, 171)
 
 # BP change area and replace button (unchanged)
-BP_CHANGE_AREA = (500, 117, 535, 130)
+BP_CHANGE_AREA = (500, 117, 536, 130)
+
+# Replace button positions
 REPLACE_BUTTON = (275, 325)
 REPLACE_BUTTON1 = (275, 330)
 REPLACE_BUTTON2 = (275, 335)
@@ -51,8 +53,12 @@ scroll_tracker = ScrollTracker()
 
 def read_bp_change():
     """Read BP change from the specified screen area."""
-    screenshot = ImageGrab.grab(bbox=BP_CHANGE_AREA)
-    text = pytesseract.image_to_string(screenshot).strip()
+    # screenshot = ImageGrab.grab(bbox=BP_CHANGE_AREA)
+    screenshot = ImageGrab.grab(bbox=BP_CHANGE_AREA).convert("L")  # Grayscale    
+    
+    # text = pytesseract.image_to_string(screenshot).strip()
+    text = pytesseract.image_to_string(screenshot, config='--psm 7 -c tessedit_char_whitelist=+-0123456789').strip()
+
     try:
         if '+' in text:
             number_str = text.split('+')[1].replace(',', '')
@@ -91,7 +97,7 @@ def find_best_gear(slot_number):
         current_page_bp_changes = []
         print(f"\nChecking scroll position {scroll_tracker.current_scroll}:")
         for col_index, pos in enumerate(GEAR_POSITIONS_PER_PAGE):
-            print(f"  Clicking position {col_index + 1} at {pos}...")
+            print(f"  Clicking column index {col_index} at {pos}...")
             pyautogui.click(pos)
             time.sleep(0.5)
             bp_change = read_bp_change()
@@ -122,7 +128,8 @@ def equip_gear(target_scroll, col_index):
     print(f"  Need to scroll {scrolls_needed} times to reach target position...")
     
     for i in range(abs(scrolls_needed)):
-        print(f"  Scrolling to position {i + 1}/{abs(scrolls_needed)}...")
+        # print(f"  Scrolling to position {i + 1}/{abs(scrolls_needed)}...")
+        print(f"  Scrolling from {scroll_tracker.current_scroll} to {scroll_tracker.current_scroll - 1}...")
         swipe_to_next_page(SCROLL_AREA_REVERSE)  # Scroll to the desired row
         scroll_tracker.current_scroll -= 1
     
@@ -143,7 +150,7 @@ def optimize_gear_slot(slot_number):
     best_scroll_number, best_col_index, best_bp_increase = find_best_gear(slot_number)
     if best_scroll_number is not None and best_bp_increase > 0:
         equip_gear(best_scroll_number, best_col_index)
-        print(f"Equipped gear at scroll {best_scroll_number}, column {best_col_index + 1} for slot {slot_number} with +{best_bp_increase} BP")
+        print(f"Equipped gear at scroll index{best_scroll_number}, column index {best_col_index} for slot {slot_number} with +{best_bp_increase} BP")
     else:
         print(f"No gear with BP increase found for slot {slot_number}")
 
