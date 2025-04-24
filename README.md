@@ -71,6 +71,7 @@ optimizes hero BP
    - Repeat the process (Quick Equip, optimize Slots 1–2, optimize Slots 3–5, iterate) for the second hero, then the third, and so on, until all 5 heroes are optimized.
 
 #### Additional Details from Screenshots
+![Screenshot 1](shot1.png)
 - **Screenshot 1** (Gear Selection Interface):
   - Shows the breastplate slot (Slot 2) with no gear equipped.
   - BP: 1374/1900.
@@ -78,6 +79,7 @@ optimizes hero BP
   - Middle panel shows slots: Slots 1–2 (left), divider, Slots 3–5 (right).
   - Filters: “Hide Equipped,” “Max Level,” enhancement level (+13 to +16).
   - 2-piece set options: Astral Guardian, Wicked Vengeance, Light’s Grace, Immortal Warlord, Life Force, Whirlwind Might, Iron Fortress, Wraithful Onslaught, Savage Strike, Deadly Aim, Vitality, Calamity, Annihilating Kills, Salvation, Juggernaut.
+![Screenshot 2](shot2.png)
 - **Screenshot 2** (Gear Comparison):
   - Slot 2 (Breastplate) selected, comparing two Wicked Vengeance breastplates.
   - Current BP: 102,106.
